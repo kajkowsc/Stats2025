@@ -176,6 +176,7 @@ summary(model1)
 
 # What is the prediction equation?
 # Your answer here
+#Eurosceptism = 4.85 - 0.07178 * Education
 
 # Categorical independent variable (manually)
 
@@ -230,6 +231,7 @@ model2 <- lm(euftf_re ~ hinctnta,data=df)
 summary(model2)
 
 # What is the prediction equation?
+#euroscepticism = 4.18295 - 0.02612 * income
 # Which interpretations can we make?
 
 # -----------------------------------------------------------
@@ -241,6 +243,7 @@ model3 <- lm(euftf_re ~ trstplt, data=df)
 summary(model3)
 
 # What is the prediction equation?
+#euroscepticism = 4.8951 - 0.1514 * trust
 # Which interpretations can we make?
 
 # -----------------------------------------------------------
@@ -252,6 +255,7 @@ model4 <- lm(euftf_re ~ imwbcnt,data=df)
 summary(model4)
 
 # What is the prediction equation?
+#Euroscepticism = 6.6284 - 0.3592 * Pro immigrant
 # Which interpretations can we make?
 
 # -----------------------------------------------------------
@@ -261,12 +265,12 @@ summary(model4)
 # Education--Continuous independent variable
 model1 <- lm(euftf_re~eduyrs,data=df)
 summary(model1)
-nobs(model1) # Number of observations in model
+nobs(model1) # Number of observations in model = 1544
 
 # Add economic dimension
 model_eco <- lm(euftf_re~eduyrs + hinctnta,data=df)
 summary(model_eco)
-nobs(model_eco) # Number of observations in model
+nobs(model_eco) # Number of observations in model = 1065
 
 # Default in lm to handle missing values is
 # to remove incomplete cases
@@ -290,6 +294,7 @@ model_eco <- lm(euftf_re~eduyrs + hinctnta,data=df_na)
 summary(model_eco)
 
 # What is the prediction equation?
+#Euroscepticism = 4.405377 - 0.0215 * education - 0.0062 * income
 # Which interpretations can we make?
 
 # Add political dimension
@@ -338,7 +343,7 @@ anova(model1, model3, test='F')
 
 # Does adding cultural dimension improve fit?
 anova(model1, model_cul, test='F')
-summary(model_cul)
+
 
 # What about cultural dimension alone?
 model4 <- lm(euftf_re~eduyrs+imwbcnt,data=df_na) # Refit with df_na
@@ -370,7 +375,7 @@ legend(7, 10, # Legend
 preds <- augment(model1)
 
 ggplot(preds, aes(x = imwbcnt, y = euftf_re, colour = edu_cat)) +
-  geom_point(alpha = 0.5) +
+  geom_jitter(alpha = 0.5) +
   geom_line(aes(y = .fitted), size = 1) +
   labs(x = "Immigration attitudes (imwbcnt)",
        y = "EU Trust (euftf_re)",
