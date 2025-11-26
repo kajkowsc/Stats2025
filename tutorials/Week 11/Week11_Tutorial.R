@@ -52,7 +52,7 @@ is.factor(df$edu_cat)
 # (1) Regression analysis ----------
 
 # Complete case analysis
-df_na <- df[complete.cases(df), ] 
+df_na <- df[complete.cases(df),] 
 
 # Categorical independent variable (manually)
 
@@ -120,12 +120,14 @@ coefplot::multiplot(
 # Does adding economic dimension improve fit?
 anova(model1, model_eco, test='F')
 summary(model_eco)
+#Does not improve fit bc p value is 0.838. 
 
 # In which cases is partial F test not equal to t-test?
 
 # Does adding political dimension improve fit?
 anova(model1, model_pol, test='F')
 summary(model_pol)
+#Yes! smaller than 0.05 (0.0033)
 
 # What about political dimension alone?
 model3 <- lm(euftf_re~eduyrs+trstplt,data=df_na) 
@@ -137,8 +139,10 @@ model5 <- lm(euftf_re~hinctnta + trstplt + imwbcnt, data=df_na)
 model6 <- lm(euftf_re~hinctnta + trstplt + imwbcnt + edu_cat, data=df_na)
 anova(model5, model6, test='F')
 summary(model6)
+#No
 
 # In conclusion: When to use partial F test?
+#when you want to test the joint significance of variables in a model
 
 # (3) Interactions ------------
 
@@ -181,11 +185,14 @@ model_int <- lm(euftf_re~eduyrs +
 summary(model_int)
 
 # What is the prediction equation?
+  #eurosceptism = 7.144 + 0.0089(education) - 0.46
 # How to interpret the intercept?
+#The eurosceptism score for an uneducated, anti immigrant male is 7.144 
 # How to interpret the coefficient for education?
 # How to interpret the coefficient for attitudes towards immigration?
 # How to interpret the coefficient for gender?
 # How to interpret the interaction term?
+  #For females, every one unit increase in immigration attitude, eurosceptism decreases by 0.297 while holding education constant. 
 
 # Get slopes for levels of categorical variables
 summary(model_int)$coefficients[3]
@@ -201,6 +208,9 @@ emmip(model_int,
       plotit = TRUE, 
       CIs = TRUE)
 
+ggplot(df_na, aes(x = inwbcnt, y = euftf_re, color = gndr)) +
+  geom_smooth(method = "lm", se = F)
+  
 # What does this function do?
 emmip(model_int, 
       gndr ~ imwbcnt,
@@ -235,6 +245,7 @@ model_int2 <- lm(euftf_re~edu_cat +
                           brncntr +
                           edu_cat*brncntr, data=df_na)
 summary(model_int2)
+#leaving certif. is the reference category
 
 # Visualize estimated marginal means (EMMs)
 emmip(model_int2, 
