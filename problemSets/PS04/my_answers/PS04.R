@@ -81,6 +81,6 @@ p_value_2 <- 2 * (1-pt(abs(t_value_2), degfree))
 
 #Q2 d
 R2 <- 0.094
-f_stat <- (R2/(k-1)) / ((1- R2)/(n-k))
-p_f_test <- pf(f_stat, df1 = k, df2 = n-k-1)
-#0.9999947
+f_stat <- (R2/k) / ((1- R2)/(n-k-1))
+p_f_test <- pf(f_stat, df1 = k, df2 = n-k-1, lower.tail = FALSE)
+#0.0018
