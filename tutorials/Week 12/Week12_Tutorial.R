@@ -3,7 +3,7 @@
 # Description:  Regression Diagnostics
 # Author:       Elena Karagianni
 # R version:    R 4.5.2
-############################################################################### 
+###############################################################################
 
 # Remove objects
 rm(list=ls())
